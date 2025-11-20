@@ -1,12 +1,12 @@
 spring.application.name=media
 
-# H2 Database Configuration (Para desenvolvimento/teste - SEM ORACLE)
+# H2 Database Configuration (Para desenvolvimento/teste)
 spring.datasource.url=jdbc:h2:mem:testdb
 spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=password
 
-# H2 Console (acesse: http://localhost:8080/h2-console)
+# H2 Console
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
 
@@ -17,7 +17,7 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 
 # JWT Configuration
-jwt.secret=mySecretKey123456789012345678901234567890
+jwt.secret=altere-esta-chave-secreta-para-uma-chave-segura-em-producao
 jwt.expiration=86400000
 
 # Server Configuration
@@ -31,3 +31,4 @@ springdoc.swagger-ui.operationsSorter=method
 # Logging
 logging.level.org.springframework.security=INFO
 logging.level.com.project.media=INFO
+

@@ -1,15 +1,15 @@
 spring.application.name=media
 
 # =====================================
-# CONFIGURAÇÃO DO BANCO DE DADOS ORACLE (OTIMIZADO)
+# CONFIGURAÇÃO DO BANCO DE DADOS ORACLE
 # =====================================
-spring.datasource.url=jdbc:oracle:thin:@//oracle.fiap.com.br:1521/orcl
-spring.datasource.username=rm559258
-spring.datasource.password=170904
+spring.datasource.url=jdbc:oracle:thin:@//localhost:1521/orcl
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
 
 # =====================================
-# CONFIGURAÇÃO DO JPA / HIBERNATE (SEM VALIDAÇÃO INICIAL)
+# CONFIGURAÇÃO DO JPA / HIBERNATE
 # =====================================
 spring.jpa.hibernate.ddl-auto=none
 spring.jpa.show-sql=false
@@ -37,7 +37,7 @@ spring.jpa.properties.hibernate.c3p0.idle_test_period=10
 spring.transaction.default-timeout=10
 
 # JWT Configuration
-jwt.secret=mySecretKey123456789012345678901234567890
+jwt.secret=altere-esta-chave-secreta-para-uma-chave-segura-em-producao
 jwt.expiration=86400000
 
 # Server Configuration
@@ -48,7 +48,7 @@ springdoc.api-docs.path=/api-docs
 springdoc.swagger-ui.path=/swagger-ui.html
 springdoc.swagger-ui.operationsSorter=method
 
-# HikariCP Configuration (FECHA CONEXÕES IMEDIATAMENTE)
+# HikariCP Configuration
 spring.datasource.hikari.maximum-pool-size=1
 spring.datasource.hikari.minimum-idle=0
 spring.datasource.hikari.connection-timeout=3000
@@ -65,3 +65,4 @@ spring.datasource.hikari.allow-pool-suspension=false
 logging.level.org.springframework.security=INFO
 logging.level.com.project.media=INFO
 logging.level.com.zaxxer.hikari=WARN
+

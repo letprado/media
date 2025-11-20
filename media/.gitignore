@@ -31,3 +31,16 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Arquivos de Configuração com Credenciais ###
+src/main/resources/application.properties
+src/main/resources/application-oracle.properties
+src/main/resources/application-dev.properties
+
+### Logs ###
+*.log
+logs/
+
+### Sistema Operacional ###
+.DS_Store
+Thumbs.db
