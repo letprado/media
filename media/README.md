@@ -1,8 +1,125 @@
 # MedIA API - Sistema de Pré-Triagem Digital
 
+## Documento de Entrega
+
+Este documento contém todos os artefatos necessários para avaliação do projeto conforme os critérios estabelecidos.
+
+### Links dos Repositórios
+
+- **Repositório Principal**: https://github.com/letprado/media
+
+### Links dos Deploys
+
+- **API em Produção (Swagger UI)**: http://158.158.40.232:8080/swagger-ui/index.html
+- **Health Check**: http://158.158.40.232:8080/api/sugestoes/health
+
+###  Vídeos de Demonstração
+
+| Tipo | Link | Duração |
+|------|-----|---------|
+| **Vídeo Pitch** | https://youtu.be/PzHuLhgT7ug | Máx. 3 minutos |
+| **Demonstração da Solução Completa** | https://youtu.be/q1R8di_eTDI | Máx. 10 minutos |
+| **Solução Geral** | https://youtu.be/ZNVd9L_YfDw | - |
+| **Integração Oracle + Java** | https://youtu.be/dSJ6lVBRvdg | - |
+
+###  Instruções para Acesso e Testes
+
+#### 1. Acessar a API em Produção
+
+A API está disponível em: **http://158.158.40.232:8080/swagger-ui/index.html**
+
+1. Acesse o link acima no navegador
+2. Faça login usando as credenciais:
+   - **Usuário**: `admin`
+   - **Senha**: `admin123`
+3. Clique em "Authorize" e cole o token JWT retornado
+4. Teste os endpoints disponíveis no Swagger
+
+#### 2. Testar Endpoints Principais
+
+**Endpoint de Autenticação:**
+```
+POST /api/auth/login-profissional
+Body: {
+  "username": "admin",
+  "password": "admin123"
+}
+```
+
+**Endpoint de Sugestões Médicas:**
+```
+POST /api/sugestoes
+Headers: Authorization: Bearer <token>
+Body: {
+  "sintomas": ["febre", "tosse", "dor de cabeça"]
+}
+```
+
+**Endpoint de Histórico (Apenas ADMIN/MEDICO):**
+```
+GET /api/sugestoes/history?page=0&size=10
+Headers: Authorization: Bearer <token>
+```
+
+#### 3. Credenciais de Teste
+
+| Usuário | Senha | Roles | Acesso |
+|---------|------|-------|--------|
+| admin | admin123 | ADMIN, USER | Todos os endpoints |
+| medico | medico123 | MEDICO, USER | Sugestões + Histórico |
+
+#### 4. Teste Rápido via cURL
+
+```bash
+# 1. Fazer login
+curl -X POST http://158.158.40.232:8080/api/auth/login-profissional \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}'
+
+# 2. Obter sugestões (substitua YOUR_TOKEN pelo token obtido)
+curl -X POST http://158.158.40.232:8080/api/sugestoes \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"sintomas":["febre","tosse"]}'
+```
+
+---
+
 ## Sobre o Projeto
 
 O MedIA é uma API REST desenvolvida em Java com Spring Boot que implementa um sistema de pré-triagem digital para unidades de saúde. O sistema recebe uma lista de sintomas informados pelo paciente e retorna sugestões médicas baseadas em um banco de conhecimento, contribuindo para otimizar o fluxo de atendimento e reduzir o tempo de espera nos pronto-socorros.
+
+## Sobre o MedIA
+
+O **MedIA** (Medical Intelligence Assistant) é uma solução tecnológica desenvolvida no contexto do "Futuro do Trabalho" que visa transformar o ambiente de trabalho dos profissionais de saúde através da otimização do fluxo de pacientes em unidades de saúde.
+
+### O Problema
+
+O sistema de saúde brasileiro enfrenta desafios críticos de gestão operacional:
+- **Tempo médio de espera**: 53 minutos em pronto-socorros
+- **Superlotação**: casos extremos atingem 500% da capacidade (ex: HC da Unicamp)
+- **Falta de dados**: 59% dos hospitais operam sem dados básicos de gestão
+- **Triagem manual ineficiente**: sensibilidade de apenas 53,8% para identificar casos graves
+
+### A Solução
+
+O MedIA implementa uma **triagem digital (eTriage)** que:
+- **Filtra 70-80% dos casos** antes da ida física ao hospital
+- **Aumenta a precisão** para 88,5% de sensibilidade na identificação de casos graves
+- **Fornece dados de gestão** para hospitais que operam sem visibilidade operacional
+- **Reduz o estresse** dos profissionais da linha de frente através da automação da coleta inicial de dados
+
+### Impacto no Futuro do Trabalho
+
+A solução transforma o ambiente de trabalho na saúde, saindo de um modelo reativo e caótico para um modelo **digital-first**, preditivo e eficiente, criando um ambiente de trabalho mais sustentável para profissionais de saúde.
+
+## Integrantes do Grupo
+
+| Integrante | RM | Responsabilidade |
+|------------|-----|------------------|
+| **Letícia Sousa Prado** | 559258 | Java e Banco de Dados |
+| **Jennyfer Lee** | 561020 | .NET e IoT |
+| **Ivanildo Alfredo** | 560049 | Mobile, QA e DevOps |
 
 ## Problema que Resolve
 
@@ -440,11 +557,64 @@ Funcionalidades planejadas para futuras versões:
 - Notificações em tempo real para profissionais de saúde
 - API de relatórios avançados com análises estatísticas
 
+## ✅ Checklist de Requisitos Técnicos
+
+Este projeto atende a **100% dos requisitos técnicos** solicitados:
+
+| Requisito | Status | Implementação |
+|-----------|--------|---------------|
+| ✅ API REST com boas práticas | ✅ | Arquitetura em camadas (Controller → Service → Repository) |
+| ✅ Spring Data JPA | ✅ | Repositories JPA com Oracle Database |
+| ✅ Relacionamentos entre entidades | ✅ | @ManyToMany (Sugestao↔Sintoma), @ManyToOne (Historico→Sugestao) |
+| ✅ Bean Validation | ✅ | @Valid, @NotBlank, @NotNull, @Size, @Pattern em DTOs e Entidades |
+| ✅ Paginação, Ordenação e Filtros | ✅ | Endpoint `/history` com Pageable, Sort e filtros por CPF/data |
+| ✅ Documentação Swagger | ✅ | Swagger/OpenAPI 3 completo e acessível |
+| ✅ Autenticação JWT | ✅ | JWT com roles (ADMIN, MEDICO, USER) |
+| ✅ Deploy em nuvem | ✅ | API em produção: http://158.158.40.232:8080 |
+
+**Verificação completa**: Consulte `CHECKLIST_REQUISITOS.md` para detalhes de cada requisito.
+
+## Documentação Adicional
+
+### Diagramas e Modelos
+
+- **Diagrama de Arquitetura Java**: [adicionais/arquitetura_java.png](adicionais/arquitetura_java.png)
+- **Modelo Lógico**: [adicionais/diagrama_logico.pdf](adicionais/diagrama_logico.pdf)
+- **Modelo Relacional**: [adicionais/diagrama_relacional.pdf](adicionais/diagrama_relacional.pdf)
+
+### Outros Documentos
+
+- **Arquitetura do Sistema**: Consulte a documentação de arquitetura para entender a estrutura em camadas
+- **Procedures e Funções**: Documentação das procedures PL/SQL e funções Oracle
+- **Checklist de Requisitos**: [CHECKLIST_REQUISITOS.md](CHECKLIST_REQUISITOS.md) - Verificação completa de todos os requisitos
+
+##  Arquitetura
+
+O projeto segue uma **arquitetura em camadas (Layered Architecture)**:
+
+- **Camada de Apresentação**: Controllers REST (AuthController, SugestaoController)
+- **Camada de Serviço**: Lógica de negócio (SugestaoService)
+- **Camada de Persistência**: Repositories JPA (SugestaoRepository, SintomaRepository, HistoricoRepository)
+- **Camada de Entidades**: Modelo de domínio (Sugestao, Sintoma, HistoricoConsulta)
+
+### Boas Práticas Implementadas
+
+ **Separação de Responsabilidades**: Cada camada tem responsabilidade única  
+ **SOLID Principles**: Código seguindo princípios SOLID  
+ **Clean Code**: Código legível e bem documentado  
+ **RESTful API**: Endpoints seguindo padrões REST  
+ **Validação de Dados**: Bean Validation em DTOs  
+ **Tratamento de Erros**: Exceções tratadas adequadamente  
+ **Logging**: Logs estruturados para debugging  
+ **Documentação**: Swagger completo e atualizado  
+ **Segurança**: JWT e autorização por roles  
+ **Transações**: Gerenciamento adequado de transações  
+
 ## Suporte
 
 Para dúvidas, problemas ou sugestões:
 
-- Email: leticia17prado@gmail.com :)
+- Email: leticia17prado@gmail.com
 
 ## Licença
 
